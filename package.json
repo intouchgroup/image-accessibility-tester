@@ -1,0 +1,33 @@
+{
+  "name": "@intouchgroup/image-accessibility-tester",
+  "version": "2.0.1",
+  "description": "CLI for batch testing website image accessibility",
+  "main": "cli.js",
+  "bin": {
+    "image-accessibility-tester": "cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/intouchgroup/image-accessibility-tester.git"
+  },
+  "keywords": [
+    "image",
+    "accessibility",
+    "tester"
+  ],
+  "author": "Intouch Group",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "12.12.7",
+    "typescript": "3.7.2"
+  },
+  "dependencies": {
+    "chalk": "3.0.0",
+    "commander": "4.0.1",
+    "excel4node": "1.7.2",
+    "sharp": "0.23.3"
+  }
+}
