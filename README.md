@@ -22,7 +22,7 @@ You can now run the Image Accessibility Tester from any folder on your computer 
 
 When you open Terminal or Powershell, you will see a file path listed in the prompt. This is the current location of your Terminal or Powershell.
 
-You can change locations using the `cd FILE_PATH` command. `cd` stands for `change directory`, and is how you navigate using Terminal or Powershell.
+You can change locations using the `cd FILE_PATH` command. `cd` stands for "change directory" (go to a different folder), and is how you navigate using Terminal or Powershell.
 
 1. Using Terminal or Powershell, navigate to the folder where you want to save the Image Accessibility Tester reports. For example: `cd Desktop/Reports`
 
