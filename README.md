@@ -57,30 +57,26 @@ A full list of available arguments with examples is presented below.
 `image-accessibility-tester -s intouchsol.com,google.com -x`
 
 > Tests ht&#8203;tps://intouchsol.com and ht&#8203;tps://google.com
-<br><br>
 
-2. Generate a JSON report for multiple staging sites:
+<br><br>2. Generate a JSON report for multiple staging sites:
 
 `image-accessibility-tester -s intouchsol.com,google.com -p "staging." -j`
 
 > Tests ht&#8203;tps://staging.intouchsol.com and ht&#8203;tps://staging.google.com
-<br><br>
 
-3. Generate an Excel report for multiple staging sites with different protocols:
+<br><br>3. Generate an Excel report for multiple staging sites with different protocols:
 
 `image-accessibility-tester -s intouchsol.com,https://google.com -p "staging." -r "http://" -x`
 
 > Tests ht&#8203;tp://staging.intouchsol.com and ht&#8203;tps://google.com
-<br><br>
 
-4. Generate an Excel report named "MyBestReportYet":
+<br><br>4. Generate an Excel report named "MyBestReportYet":
 
 `image-accessibility-tester -s intouchsol.com -x -f "MyBestReportYet"`
 
 > Tests ht&#8203;tps://intouchsol.com
-<br><br>
 
-5. These commands are exactly equivalent:
+<br><br>5. These commands are exactly equivalent:
 
 `image-accessibility-tester -s intouchsol.com -x -r "http://" -f "MyBestReportYet"`
 
