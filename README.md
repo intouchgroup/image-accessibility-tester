@@ -56,7 +56,7 @@ A full list of available arguments with examples is presented below.
 
 `image-accessibility-tester -s intouchsol.com,google.com -x`
 
-> Tests https://intouchsol.com and https://google.com
+> Tests ht&#8203;tps://intouchsol.com and https://google.com
 <br><br>
 
 2. Generate a JSON report for multiple staging sites:
