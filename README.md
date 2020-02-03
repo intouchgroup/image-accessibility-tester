@@ -52,7 +52,7 @@ A full list of available arguments with examples is presented below.
 
 ### Examples
 
-1. Generate an Excel report for multiple sites:
+<br>1. Generate an Excel report for multiple sites:
 
 `image-accessibility-tester -s intouchsol.com,google.com -x`
 
@@ -76,7 +76,13 @@ A full list of available arguments with examples is presented below.
 
 > Tests ht&#8203;tps://intouchsol.com
 
-<br><br>5. These commands are exactly equivalent:
+<br><br>5. Authentication login info must be in the format `username:password`:
+
+`image-accessibility-tester -s private.intouchsol.com -x -a "joe.smith:Password123!"`
+
+> Tests https://private.intouchsol.com with authentication
+
+<br><br>6. Use long or short names for arguments. These commands are exactly equivalent:
 
 `image-accessibility-tester -s intouchsol.com -x -r "http://" -f "MyBestReportYet"`
 
