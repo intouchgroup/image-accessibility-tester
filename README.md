@@ -80,9 +80,9 @@ A full list of available arguments with examples is presented below.
 
 `image-accessibility-tester -s private.intouchsol.com -x -a "joe.smith:Password123!"`
 
-> Tests https://private.intouchsol.com with authentication
+> Tests ht&#8203;tps://private.intouchsol.com with authentication
 
-<br><br>6. Use long or short names for arguments. These commands are exactly equivalent:
+<br><br>6. Use short or long names for arguments. These commands are exactly equivalent:
 
 `image-accessibility-tester -s intouchsol.com -x -r "http://" -f "MyBestReportYet"`
 

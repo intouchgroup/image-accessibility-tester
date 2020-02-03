@@ -1,6 +1,6 @@
 {
   "name": "@intouchgroup/image-accessibility-tester",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "CLI for batch testing website image accessibility",
   "main": "cli.js",
   "bin": {
