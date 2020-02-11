@@ -81,6 +81,7 @@ var LONGDESC_ATTRIBUTE_CAPTURE_REGEX = /longdesc=([^\s]+)/;
 var ARIA_GLOBAL_ATTRIBUTE_CAPTURE_REGEX = /aria-[a-zA-Z]+=([^\s]+)/g;
 var IMAGE_TYPE_SVG_REGEX = /\.svg/;
 var SVG_TO_PNG_DENSITY_DEFAULT = 400;
+var EXCEL_WIDTH_PIXEL_MULTIPLIER_DEFAULT = 6;
 var redirectReport = [];
 var didError = false;
 program
@@ -468,7 +469,7 @@ var generateReportFilename = function (url, fileExtension) {
     return timestamp + "_" + urlName + (urlName.charAt(urlName.length - 1) === '_' ? '' : '_') + REPORT_FILENAME_SUFFIX_DEFAULT + "." + fileExtension;
 };
 var createExcelWorkbook = function (reportItem, concurrentNumber, auth) { return __awaiter(void 0, void 0, void 0, function () {
-    var url, inputIndex, inputURL, images, xl, workBook, workSheet, headerStyle, asideStyle, valueStyle, textWrapStyle, greyBackgroundStyle, headers, headersLength, imageChunks, chunkedImageResults, _i, imageChunks_1, imageChunk, _a, _b, imageResults, pngImageResults;
+    var url, inputIndex, inputURL, images, xl, workBook, workSheet, headerStyle, asideStyle, valueStyle, textWrapStyle, greyBackgroundStyle, IMAGE_COLUMN_WIDTH, ROW_HEIGHT, headers, headersLength, imageChunks, chunkedImageResults, _i, imageChunks_1, imageChunk, _a, _b, imageResults, pngImageResults;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -481,9 +482,11 @@ var createExcelWorkbook = function (reportItem, concurrentNumber, auth) { return
                 valueStyle = workBook.createStyle({ font: { color: '#030308', size: 12 } });
                 textWrapStyle = workBook.createStyle({ alignment: { wrapText: true } });
                 greyBackgroundStyle = workBook.createStyle({ fill: { type: 'pattern', patternType: 'solid', fgColor: '#CFCFCF' } });
+                IMAGE_COLUMN_WIDTH = 55;
+                ROW_HEIGHT = 140;
                 headers = [
                     ['Source', 70],
-                    ['Preview', 55],
+                    ['Preview', IMAGE_COLUMN_WIDTH],
                     ['Has Alt', 15],
                     ['Alt Value', 20],
                     ['Has Title', 15],
@@ -528,7 +531,7 @@ var createExcelWorkbook = function (reportItem, concurrentNumber, auth) { return
                     workSheet.cell(rowNumber, 11).string(String(hasLongdesc)).style(valueStyle);
                     workSheet.cell(rowNumber, 12).string(longdesc).style(valueStyle);
                     workSheet.cell(rowNumber, 13).string(absoluteURL).style(valueStyle).style(textWrapStyle);
-                    workSheet.row(rowNumber).setHeight(140);
+                    workSheet.row(rowNumber).setHeight(ROW_HEIGHT);
                 });
                 imageChunks = chunk(images, concurrentNumber);
                 chunkedImageResults = [];
@@ -551,17 +554,10 @@ var createExcelWorkbook = function (reportItem, concurrentNumber, auth) { return
             case 4:
                 imageResults = chunkedImageResults.reduce(function (accumulator, value) { return accumulator.concat(value); }, []);
                 return [4 /*yield*/, Promise.all(images.map(function (imageData, index) { return __awaiter(void 0, void 0, void 0, function () {
-                        var isSVG, pngBuffer;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0:
-                                    isSVG = Boolean(imageData.src.match(IMAGE_TYPE_SVG_REGEX));
-                                    if (!isSVG) return [3 /*break*/, 2];
-                                    return [4 /*yield*/, sharp(imageResults[index], { density: SVG_TO_PNG_DENSITY_DEFAULT }).png().toBuffer()];
-                                case 1:
-                                    pngBuffer = _a.sent();
-                                    return [2 /*return*/, pngBuffer];
-                                case 2: return [2 /*return*/, imageResults[index]];
+                                case 0: return [4 /*yield*/, sharp(imageResults[index], { density: SVG_TO_PNG_DENSITY_DEFAULT }).resize({ width: IMAGE_COLUMN_WIDTH * EXCEL_WIDTH_PIXEL_MULTIPLIER_DEFAULT, height: ROW_HEIGHT, fit: sharp.fit.inside }).png().toBuffer()];
+                                case 1: return [2 /*return*/, _a.sent()];
                             }
                         });
                     }); }))];
@@ -572,16 +568,10 @@ var createExcelWorkbook = function (reportItem, concurrentNumber, auth) { return
                         image: image,
                         type: 'picture',
                         position: {
-                            type: 'twoCellAnchor',
+                            type: 'oneCellAnchor',
                             from: {
                                 col: 2,
                                 row: index + 2,
-                                colOff: 0,
-                                rowOff: 0
-                            },
-                            to: {
-                                col: 3,
-                                row: index + 3,
                                 colOff: 0,
                                 rowOff: 0
                             }

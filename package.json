@@ -1,13 +1,13 @@
 {
   "name": "@intouchgroup/image-accessibility-tester",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "CLI for batch testing website image accessibility",
   "main": "cli.js",
   "bin": {
     "image-accessibility-tester": "cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc src/index.ts"
   },
   "repository": {
     "type": "git",

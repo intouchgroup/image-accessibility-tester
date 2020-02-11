@@ -46,6 +46,7 @@ const LONGDESC_ATTRIBUTE_CAPTURE_REGEX = /longdesc=([^\s]+)/;
 const ARIA_GLOBAL_ATTRIBUTE_CAPTURE_REGEX = /aria-[a-zA-Z]+=([^\s]+)/g;
 const IMAGE_TYPE_SVG_REGEX = /\.svg/;
 const SVG_TO_PNG_DENSITY_DEFAULT = 400;
+const EXCEL_WIDTH_PIXEL_MULTIPLIER_DEFAULT = 6;
 
 const redirectReport: (RequestData & {
     responses: RedirectResponseData[];
@@ -471,9 +472,12 @@ const createExcelWorkbook = async (reportItem: ReportItem, concurrentNumber: num
     const textWrapStyle = workBook.createStyle({ alignment: { wrapText: true } });
     const greyBackgroundStyle = workBook.createStyle({ fill: { type: 'pattern', patternType: 'solid', fgColor: '#CFCFCF' } });
 
+    const IMAGE_COLUMN_WIDTH = 55;
+    const ROW_HEIGHT = 140;
+
     const headers = [
         ['Source', 70],
-        ['Preview', 55],
+        ['Preview', IMAGE_COLUMN_WIDTH],
         ['Has Alt', 15],
         ['Alt Value', 20],
         ['Has Title', 15],
@@ -521,7 +525,7 @@ const createExcelWorkbook = async (reportItem: ReportItem, concurrentNumber: num
         workSheet.cell(rowNumber, 11).string(String(hasLongdesc)).style(valueStyle);
         workSheet.cell(rowNumber, 12).string(longdesc).style(valueStyle);
         workSheet.cell(rowNumber, 13).string(absoluteURL).style(valueStyle).style(textWrapStyle);
-        workSheet.row(rowNumber).setHeight(140);
+        workSheet.row(rowNumber).setHeight(ROW_HEIGHT);
     });
 
     const imageChunks = chunk<ImageAccessibilityInfo>(images, concurrentNumber);
@@ -534,15 +538,7 @@ const createExcelWorkbook = async (reportItem: ReportItem, concurrentNumber: num
     const imageResults = chunkedImageResults.reduce((accumulator, value) => accumulator.concat(value), []);
 
     const pngImageResults = await Promise.all(images.map(async (imageData, index) => {
-        const isSVG = Boolean(imageData.src.match(IMAGE_TYPE_SVG_REGEX));
-
-        if (isSVG) {
-            const pngBuffer = await sharp(imageResults[index], { density: SVG_TO_PNG_DENSITY_DEFAULT }).png().toBuffer();
-            return pngBuffer;
-        }
-        else {
-            return imageResults[index];
-        }
+        return await sharp(imageResults[index], { density: SVG_TO_PNG_DENSITY_DEFAULT }).resize({ width: IMAGE_COLUMN_WIDTH * EXCEL_WIDTH_PIXEL_MULTIPLIER_DEFAULT, height: ROW_HEIGHT, fit: sharp.fit.inside }).png().toBuffer();
     }));
 
     pngImageResults.forEach((image, index) => {
@@ -550,16 +546,10 @@ const createExcelWorkbook = async (reportItem: ReportItem, concurrentNumber: num
             image,
             type: 'picture',
             position: {
-                type: 'twoCellAnchor',
+                type: 'oneCellAnchor',
                 from: {
                     col: 2,
                     row: index + 2,
-                    colOff: 0,
-                    rowOff: 0,
-                },
-                to: {
-                    col: 3,
-                    row: index + 3,
                     colOff: 0,
                     rowOff: 0,
                 },
