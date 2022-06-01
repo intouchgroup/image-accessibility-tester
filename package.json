@@ -28,6 +28,6 @@
     "chalk": "3.0.0",
     "commander": "4.0.1",
     "excel4node": "1.7.2",
-    "sharp": "0.23.3"
+    "sharp": "0.30.5"
   }
 }
